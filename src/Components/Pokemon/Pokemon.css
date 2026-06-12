@@ -1,0 +1,27 @@
+.poke-baby{
+
+    flex-basis: 20%;  /* ya btata hia ki suru m flex item ko kitni jaga lani chaiya*/
+    height: 250px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.poke-name{
+
+    font-size: x-large;
+    letter-spacing: 0.5rem;
+}
+
+.poke-baby-img {
+    margin-top: 1rem;
+
+height: 120px;
+    max-height: 100%;
+}
+.poke-baby:hover{
+
+    background-color: antiquewhite;
+}
