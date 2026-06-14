@@ -1,0 +1,26 @@
+.poke{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+#heading{
+
+    margin: 0 auto;
+    letter-spacing: 5px;
+    
+ }
+
+ a:visited{     /*a mtlb all vistede website visited color blcak ho jaya ga ya sab ko work krna k liya use hota hai*/
+
+        color: black;
+ }
+.poke{
+        
+            background-image: url(https://imgs.search.brave.com/nWCuARilFG0TD-eu4vTvlAPU-9Z8p0yuZz4XlEJqwj8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDU5NzE0/MTQuanBn);
+
+            background-repeat: no-repeat;
+            background-size: cover;
+      
+  }
