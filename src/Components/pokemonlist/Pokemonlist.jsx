@@ -4,21 +4,37 @@ import './Pokemonlist.css';
 import Pokemon from "../Pokemon/Pokemon";
 function Pokemonlist()
 {
-    const [pokemonlist ,setpokemonlist] =useState([])
-    const [isloading , setdata]=useState(true)
-   const [pokedataUrl ,setpokedata] =useState('https://pokeapi.co/api/v2/pokemon')
+//     const [pokemonlist ,setpokemonlist] =useState([])
+//     const [isloading , setdata]=useState(true)
+//    const [pokedataUrl ,setpokedata] =useState('https://pokeapi.co/api/v2/pokemon')
 
-   const [nextUrl,setnextUrl] =useState()
-   const [prevUrl,setprevUrl] =useState()
+//    const [nextUrl,setnextUrl] =useState('')
+//    const [prevUrl,setprevUrl] =useState('')
+
+   const [pokemonListstate,setpokeListstste] =useState({
+    pokemonlist : [],
+    isloading :true,
+    pokedataUrl: 'https://pokeapi.co/api/v2/pokemon',
+    nextUrl :  '',
+    prevUrl:""
+   })
 
       async function downloadpokemon() {
-        
-        const resp = await axios.get(pokedataUrl)
+       
+        const resp = await axios.get(pokemonListstate.pokedataUrl)
        // console.log(resp.data)                // resp.data for total count
        const pokemonresult = resp.data.results;
         console.log(resp.data)                // resp.data for total count or ya next or previous deta hai jo inspect m dika gi
-        setnextUrl(resp.data.next);
-        setprevUrl(resp.data.previous);
+        //setnextUrl(resp.data.next);
+
+        //setprevUrl(resp.data.previous);
+
+        setpokeListstste((state)=>({
+          ...state ,
+          nextUrl:resp.data.next ,
+          prevUrl:resp.data.previous
+        }));
+
        const pokemonResultprovider = pokemonresult.map((pokemon)=>axios.get(pokemon.url) )
        const  pokemondata =await axios.all(pokemonResultprovider)
        console.log(pokemondata);
@@ -29,23 +45,28 @@ function Pokemonlist()
             id:pokemon.id,
             name:pokemon.name,
             image:pokemon.sprites.other.dream_world.front_default,
-        type:pokemon.types}
+        type:pokemon.types  }
     })
     console.log(rep);
     
-    setpokemonlist(rep)
-    setdata(false)
-       
- 
+    //   setpokemonlist(rep)
+
+    setpokeListstste((state)=> ({
+      ...state, 
+      pokemonlist:rep,
+      isloading:false}));
+
+     //setdata(false)
+        //setpokeListstste({...pokemonListstate,isloading:false})
+    
        }
         
         useEffect(()=>{
 
             downloadpokemon()
             
-      
 
-        },[pokedataUrl]);
+        },[pokemonListstate.pokedataUrl]);
 
     return(
 
@@ -56,16 +77,19 @@ function Pokemonlist()
 
             <div className="poke-wrapper">
             {
-                (isloading) ? ' Its Loading baby...' : 
-                 pokemonlist.map((p)=> <Pokemon  name ={p.name}  image={p.image} key={p.id}  id={p.id}/>)
+                (pokemonListstate.isloading) ? ' Its Loading baby...' : 
+                pokemonListstate.pokemonlist.map((p)=> <Pokemon  name ={p.name}  image={p.image} key={p.id}  id={p.id}/>)
                  
               }
 
             </div>
               <div className="button">
-                <button disabled ={prevUrl == null} onClick={ () => setpokedata(prevUrl)}>prev</button>
-                <button disabled ={nextUrl == null} onClick={ () => setpokedata(nextUrl)}>next</button>
-              </div>
+              <button
+         disabled={pokemonListstate.prevUrl == null}  onClick={() => setpokeListstste({ ...pokemonListstate,pokedataUrl: pokemonListstate.prevUrl})}>prev</button>
+         
+           <button
+         disabled={pokemonListstate.nextUrl == null} onClick={() => setpokeListstste({...pokemonListstate,pokedataUrl: pokemonListstate.nextUrl })}>next</button>
+         </div>
          
         </div>
     );
